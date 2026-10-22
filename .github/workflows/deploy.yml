@@ -24,7 +24,7 @@ jobs:
           rsync -avz --exclude='.git' ./ /var/www/html/
           echo "Deployment berhasil dijalankan!"
 
-      - name: Send Telegram Notification
+     - name: Send Telegram Notification
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
