@@ -20,4 +20,18 @@ jobs:
 
       - name: Deploy to Web Directory
         run: |
+          echo "Memulai proses sinkronisasi file menggunakan rsync..."
+          rsync -avz --exclude='.git' ./ /var/www/html/
           echo "Deployment berhasil dijalankan!"
+
+      - name: Send Telegram Notification
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            🚀 Berhasil Deploy ke Server M.A.T.A!
+            Repository: amrankaha/proyek-mata-web
+            Branch: main
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
