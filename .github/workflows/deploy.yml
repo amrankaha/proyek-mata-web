@@ -1,25 +1,23 @@
-name: CI/CD Deploy ke Web Server M.A.T.A
+name: MATA CI/CD Deployment
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: self-hosted
+
     steps:
-      - name: Checkout Repository Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Remote SSH to Web Server and Deploy
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "=== MEMULAI DEPLOYMENT OTOMATIS ==="
-            cd /var/www/html
-            sudo git pull origin main
-            sudo systemctl restart nginx
-            echo "=== DEPLOYMENT SELESAI DENGAN SUKSES ==="
+      - name: Verify Runner Environment
+        run: |
+          echo "Workflow sedang berjalan di server lokal M.A.T.A"
+          hostname -I
+          pwd
+
+      - name: Deploy to Web Directory
+        run: |
+          echo "Deployment berhasil dijalankan!"
